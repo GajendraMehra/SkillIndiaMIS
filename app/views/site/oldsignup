@@ -1,0 +1,331 @@
+
+ <style>
+     
+     body
+{
+	background: #f5f5f5;
+}
+
+h5
+{
+	font-weight: 400;
+}
+.background {
+  width: 70%;
+  padding: 40px;
+  height: 100vh;
+  background: linear-gradient(60deg, rgba(158, 189, 19, 0.5), rgba(0, 133, 82, 0.7)), url('custom/images/cover.png'), center no-repeat;
+  background-size: cover;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: flex-end;
+  align-content: center;
+  flex-direction: row;
+}
+.container
+{
+	margin-top:3%;
+	width: 70%;
+	height: 100vh ;
+}
+
+ .indicator
+{
+	background-color: red;
+	height: 60px;
+		opacity:1 !important;
+}
+.tabs{
+	overflow-x:visible !important;
+	overflow-y:visible !important;
+	background-color:#7ac7c0;
+	/*opacity:0.3;*/
+}
+.active{
+    	background-color: #009688;
+    	color:white !important;
+    	padding:0.3em !important ;
+}
+.form-container
+{
+	/*padding: 40px;*/
+	padding-top: 10px;
+}
+
+.confirmation-tabs-btn
+{
+	position: absolute;
+}
+#code {
+	float: left;
+	position: absolute;
+	left: 40px;
+	bottom:8px;
+	font-size: 2em;
+}
+#logobox {
+	box-shadow: 6px 10px #d5cece;
+}
+</style>
+</head>
+
+<body>
+<?= $this->render('/layouts/flashes'); ?>
+<div class="row" style="heght:100vh">
+	<div class="background" style="width:60%;float:left">
+
+
+		<div class="row">
+
+
+			<div class="">
+				<div class="card" id="logobox">
+					<div class="center">
+						<img src='custom/images/logo1.png' width="150px" height="150px">
+						<!-- <span class="card-title">Card Title</span> -->
+						<!-- <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a> -->
+					</div>
+					<div class="card-content">
+						<h5 class="teal-text">Uttrakhand Skill Development Mission</h5>
+						<!-- <p>I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively.</p> -->
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+	<div class="" style="width:40%;float:left">
+		<div class="container white z-depth-2">
+			<ul class="tabs">
+				<li class="tab col s3"><a class="white-text " id="aregister" href="#register">register</a></li>
+				<li class="tab col s3"><a class="white-text active" id="alogin" href="#login">login</a></li>
+			</ul>
+			<div id="register" class="col s12">
+				<form class="col s12" action="<?= Yii::$app->homeUrl?>?r=site%2Fsignup" method="POST">
+					<div class="form-container">
+					<div class="center-align">
+					<i class="material-icons medium  teal-text">person_add</i>
+					</div>
+
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="username" type="email" name="SignupForm[email]" class="validate" required>
+								<label for="username">Email</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="last_name" type="text" required class="validate" name="SignupForm[username]">
+								<label for="last_name">Username</label>
+							</div>
+							<!-- <div class="input-field col s6">
+						<input id="last_name" type="text" class="validate">
+						<label for="last_name">Last Name</label>
+					</div> -->
+						</div>
+
+
+						<div class="row">
+							<div class="input-field col s12">
+								<select class="validate" name="SignupForm[role]" required style="display:block">
+									<option value="">Select role</option>
+									<option value="2">Training Partner</option>
+									<!-- <option value="3">Training Center</option> -->
+									<!-- <option value="4">Accountant</option> -->
+									<!-- <option value="3">Option 3</option> -->
+								</select>
+								<!-- <label>Materialize Select</label> -->
+							</div>
+						</div>
+						<!-- <div class="row">
+					<div class="input-field col s12">
+						<input id="email-confirm" type="email" class="validate">
+						<label for="email-confirm">Email Confirmation</label>
+					</div>
+				</div> -->
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="password" type="password" name="SignupForm[password]" minlength="10"
+									class="validate" required>
+								<label for="password">Password</label>
+							</div>
+						</div>
+
+
+						<div class="center-align">
+							<button type="submit" value="Register" class="btn  teal" name="action">Register</button>
+							<br>
+							<br>
+							<span>Are you a Student ? 
+							<a href="index.php?r=site/student-signup">Sign Up Here</a>
+							
+							</span>
+
+							<br>
+							<br>
+							<div class=" center-align">
+							
+							<div class=""><span class="copy-text ">Powered by</span> <a href="http://utmv.in" target="_blank"><img
+								class="img-thumbnail"
+								style="margin-top:20px"
+								src="<?php echo yii::getalias('@web')?>/custom/images/utlogo.png" alt=""
+								srcset="" height="40px" width="100px"></a>
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</form>
+			</div>
+			<div id="login" class="col s12">
+				<form class="col s12" action="<?= Yii::$app->homeUrl?>?r=site%2Flogin" id="loginForm" method="POST">
+					<div class="form-container">
+					<div class="center-align">
+						<i class="material-icons medium  teal-text">person</i>
+					</div>
+						
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="username" type="text"  name="LoginForm[username]" value=""
+									autocomplete="off" class="validate">
+								<label for="username" class="active">Username</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input id="password" value="" type="password"  name="LoginForm[password]"
+									class="validate">
+								<label for="password">Password</label>
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-field col s12">
+								<input type="text" name="captcha" class="captcha" maxlength="4" size="4" autocomplete="off" placeholder="Enter captcha code" tabindex=3 >
+								<label for="captcha">Captcha</label>
+								<span id="captcha"></span>
+							<img src='custom/images/captcha.png' style=" float: left; opacity: 0.4;border:1px solid green " height="60px" width="150px" alt="" srcset="">
+
+							</div>
+						</div>
+						<br>
+						<div class="center-align">
+							<button type="submit" name="login-button" class="btn  teal">Login</button>
+							<p></p>
+							<a href="index.php?r=site/forget-password">Forget Password ?</a>
+						
+							<br>
+							<br>
+							<div class=" center-align">
+							
+									<div class=""><span class="copy-text ">Powered by</span> <a href="http://utmv.in" target="_blank"><img
+										class="img-thumbnail"
+										style="margin-top:20px"
+										src="<?php echo yii::getalias('@web')?>/custom/images/utlogo.png" alt=""
+										srcset="" height="40px" width="100px"></a>
+										</div>
+							</div>
+					</div>
+					</div>
+			</div>
+			</form>
+			<br>
+			<br>
+			<br>
+
+
+		</div>
+
+	</div>
+</div>
+<script>
+
+function captchaCode() {
+  var Numb1, Numb2, Numb3, Numb4, Code;     
+  Numb1 = (Math.ceil(Math.random() * 10)-1).toString();
+  Numb2 = (Math.ceil(Math.random() * 10)-1).toString();
+  Numb3 = (Math.ceil(Math.random() * 10)-1).toString();
+  Numb4 = (Math.ceil(Math.random() * 10)-1).toString();
+  
+  Code = Numb1 + Numb2 + Numb3 + Numb4;
+  $("#captcha span").remove();
+  $("#captcha input").remove();
+  $("#captcha").html("<span id='code'>" + Code + "</span><button style='margin-left:2em' class='btn-floating btn-small btn-sm teal' type='button' onclick='captchaCode();'><i class='material-icons'>refresh</i></button>");
+}
+$(function(){
+
+
+	var a=setInterval(function(){ 
+		$('input').val('');
+		if (!$('[name="LoginForm[username]"]').val()) {
+		   
+			clearInterval(a) 
+		}
+	}, 1000);
+
+	// setTimeout(
+    // function() {
+	// 	$('input').val('');
+
+    // }, 400);
+  captchaCode();
+  
+  $('#loginForm').submit(function(event){
+	event.preventDefault()
+	  
+    var captchaVal = $("#code").text();
+    var captchaCode = $(".captcha").val();
+    var username = $('[name="LoginForm[username]"]').val();
+    var password = $('[name="LoginForm[password]"]').val();
+	if ((!username.trim())) {
+		toastr.error('Username Required')
+		return false
+      
+    }if ((!password.trim())) {
+		toastr.error('Password Required')
+		return false
+      
+    }
+
+    var captchaCode = $(".captcha").val();
+    if (captchaVal == captchaCode) {
+      $(".captcha").css({
+        "color" : "#609D29"
+      });
+    }
+    else {
+      $(".captcha").css({
+        "color" : "#CE3B46"
+      });
+    }
+    
+    
+    
+   
+    
+    
+    if ((captchaVal !== captchaCode)) {
+		toastr.error('Invalid Captcha')
+      return false;
+    }
+    if ((captchaVal == captchaCode)) {
+		toastr.success('Captcha Verified')
+		this.submit();
+  
+    }
+  });       
+});
+
+
+</script>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
