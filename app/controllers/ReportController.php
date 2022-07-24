@@ -7,6 +7,8 @@ use yii\filters\VerbFilter;
 use app\models\Scheme;
 use app\models\Targets;
 use app\models\Job;
+use app\models\StudentResult;
+use app\models\StudentPlacement;
 use app\models\TargetsResponse;
 use app\models\Tcdetail;
 use app\models\TargetBatch;
@@ -153,6 +155,8 @@ public function getStudentsGender($bid){
             // $responseDis[$key][$key1]['tp_id']=$value1['tp_id'];
             $batch=TargetBatch::find()->where(['sub_target_id'=>$value1['id']])->asArray()->all();
             foreach ($batch as $key2 => $value2) {
+                $transDis=[];
+
                 $today=time();
 
                 $startDatestamp = strtotime($value2['start_date']); 
@@ -187,9 +191,18 @@ public function getStudentsGender($bid){
                 $batchDis[$key2]['student_enroll']=BatchStudents::find()->where(['batch_id'=>$value2['id']])->count();
                 $batchDis[$key2]['student_enroll_cast_wise']=$this->getStudentsCat($value2['id']);
                 $batchDis[$key2]['student_enroll_gender_wise']=$this->getStudentsGender($value2['id']);
+                $batchDis[$key2]['student_passed']=StudentResult::find()->where(['batch_id'=>$value2['id']])
+                ->andWhere(['or',
+                        ['result'=>1],
+                        ['result1'=>1],
+                        ['result2'=>1]
+                ])
+                ->count();
+                $batchDis[$key2]['student_failed']=($batchDis[$key2]['student_passed'])?$batchDis[$key2]['student_enroll']- $batchDis[$key2]['student_passed']:"";
+                $batchDis[$key2]['student_placed']=StudentPlacement::find()->where(['batch_id'=>$value2['id'],'result'=>1])
+                ->count();
                 $temp=$temp+BatchStudents::find()->where(['batch_id'=>$value2['id']])->count();
                 $trans=TransDetail::find()->where(['batch_id'=>$value2['id']])->asArray()->all();
-
                 foreach ($trans as $key3 => $value3) {
                     $transDis[$value3['claim_type']]['net_amount']= number_format(($value3['is_tds_deduct'])? 
                     round($value3['net_amount']-$value3['net_amount']*0.1,0)

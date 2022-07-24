@@ -164,6 +164,9 @@ function downloadReport2($data,$year){
         $tcBatchDis[$key][$key2][$key3]['st']=@$value3['student_enroll_cast_wise'][3];
         $tcBatchDis[$key][$key2][$key3]['sc']=@$value3['student_enroll_cast_wise'][4];
         $tcBatchDis[$key][$key2][$key3]['status']=$value3['status'];
+        $tcBatchDis[$key][$key2][$key3]['student_passed']=@$value3['student_passed'];
+        $tcBatchDis[$key][$key2][$key3]['student_failed']=@$value3['student_failed'];
+        $tcBatchDis[$key][$key2][$key3]['student_placed']=@$value3['student_placed'];
         $tcBatchDis[$key][$key2][$key3]['claim1']=(isset($value3['trans'][0])&&$value3['trans'][0]['net_amount']!=0)?$value3['trans'][0]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim2']=(isset($value3['trans'][1])&&$value3['trans'][1]['net_amount']!=0)?$value3['trans'][1]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim3']=(isset($value3['trans'][2])&&$value3['trans'][2]['net_amount']!=0)?$value3['trans'][2]['net_amount']:' - ';
@@ -201,7 +204,7 @@ function downloadReport2($data,$year){
       $spreadsheet->getActiveSheet()->fromArray( [ ["TC Name","Address","SPOC Name","Contact","Smart TC ID","Center Email","District","Target Distributed","Student Enrolled"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':H'.($flag-1))->applyFromArray($styleArray);;
       $spreadsheet->getActiveSheet()->fromArray($value2,NULL,'B'.$flag++ );   
     $spreadsheet->getActiveSheet()->fromArray([["Batch Details"]],NULL,'A'.$flag++ )->getStyle('A'.($flag-1))->applyFromArray($styleArray);  
-    $spreadsheet->getActiveSheet()->fromArray( [ ["Batch Name","Batch SIP ID","Sector Name","Sub Sector Name","Job Name","Trainer Name","Date","Time","Student Enrolled","Female","Male","General","O.B.C","S.T","S.C","Status","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':P'.($flag-1))->applyFromArray($styleArray);;
+    $spreadsheet->getActiveSheet()->fromArray( [ ["Batch Name","Batch SIP ID","Sector Name","Sub Sector Name","Job Name","Trainer Name","Date","Time","Student Enrolled","Female","Male","General","O.B.C","S.T","S.C","Status","Student Passed","Student Failed / Not Appeared","Student Placed","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':P'.($flag-1))->applyFromArray($styleArray);;
 
        $spreadsheet->getActiveSheet()->fromArray($tcBatchDis[$key][$key1],NULL,'B'.$flag++ );   
        # code...
@@ -327,6 +330,9 @@ function downloadReport2_1($data,$year){
         $tcBatchDis[$key][$key2][$key3]['st']=@$value3['student_enroll_cast_wise'][3];
         $tcBatchDis[$key][$key2][$key3]['sc']=@$value3['student_enroll_cast_wise'][4];
         $tcBatchDis[$key][$key2][$key3]['status']=$value3['status'];
+        $tcBatchDis[$key][$key2][$key3]['student_passed']=@$value3['student_passed'];
+        $tcBatchDis[$key][$key2][$key3]['student_failed']=@$value3['student_failed'];
+        $tcBatchDis[$key][$key2][$key3]['student_placed']=@$value3['student_placed'];
         $tcBatchDis[$key][$key2][$key3]['claim1']=(isset($value3['trans'][0])&&$value3['trans'][0]['net_amount']!=0)?$value3['trans'][0]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim2']=(isset($value3['trans'][1])&&$value3['trans'][1]['net_amount']!=0)?$value3['trans'][1]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim3']=(isset($value3['trans'][2])&&$value3['trans'][2]['net_amount']!=0)?$value3['trans'][2]['net_amount']:' - ';
@@ -365,7 +371,7 @@ function downloadReport2_1($data,$year){
     "End Date",
     "Time",
     "Student Enrolled","Female","Male",
-    "General","O.B.C","S.T","S.C","Status","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':P'.($flag-1))->applyFromArray($styleArray);;
+    "General","O.B.C","S.T","S.C","Status","Student Passed","Student Failed / Not Appeared","Student Placed","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':P'.($flag-1))->applyFromArray($styleArray);;
   foreach ($tpdis as $key => $value) {
     // $spreadsheet->getActiveSheet()->fromArray([["Training Partner Details"]],NULL,'A'.$flag++ )->getStyle('A'.($flag-1))->applyFromArray($styleArray);  
     // $spreadsheet->getActiveSheet()->fromArray( [ ["TP Name","SDMS ID","Target Distributed","Student Enrolled"]],NULL,'B'.$flag++ )->getStyle('B'.($flag-1).':H'.($flag-1))->applyFromArray($styleArray);; 
@@ -389,9 +395,9 @@ function downloadReport2_1($data,$year){
   // $spreadsheet->getActiveSheet()->fromArray($tpdis,NULL,'A12' );   
         // Top left coordinate of the worksheet range where
         // $spreadsheet->getActiveSheet()->getStyle('A1:A30')->applyFromArray($styleArray);
-        $spreadsheet->getActiveSheet()->getStyle('A1:AE1')->applyFromArray($styleArray);
+        $spreadsheet->getActiveSheet()->getStyle('A1:AM1')->applyFromArray($styleArray);
 
-        foreach (range('B',"Z") as $col) {
+        foreach (range('A',"Z") as $col) {
           $spreadsheet->getActiveSheet()
                   ->getColumnDimension($col)
                   ->setAutoSize(true);
@@ -496,6 +502,10 @@ function downloadReport3($data,$year){
         $tcBatchDis[$key][$key2][$key3]['st']=@$value3['student_enroll_cast_wise'][3];
         $tcBatchDis[$key][$key2][$key3]['sc']=@$value3['student_enroll_cast_wise'][4];
         $tcBatchDis[$key][$key2][$key3]['status']=$value3['status'];
+        $tcBatchDis[$key][$key2][$key3]['student_passed']=@$value3['student_passed'];
+        $tcBatchDis[$key][$key2][$key3]['student_failed']=@$value3['student_failed'];
+        $tcBatchDis[$key][$key2][$key3]['student_placed']=@$value3['student_placed'];
+
         $tcBatchDis[$key][$key2][$key3]['claim1']=(isset($value3['trans'][0])&&$value3['trans'][0]['net_amount']!=0)?$value3['trans'][0]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim2']=(isset($value3['trans'][1])&&$value3['trans'][1]['net_amount']!=0)?$value3['trans'][1]['net_amount']:' - ';
         $tcBatchDis[$key][$key2][$key3]['claim3']=(isset($value3['trans'][2])&&$value3['trans'][2]['net_amount']!=0)?$value3['trans'][2]['net_amount']:' - ';
@@ -536,7 +546,7 @@ function downloadReport3($data,$year){
       $spreadsheet->getActiveSheet()->fromArray($value1,NULL,'B'.$flag++ );   
       foreach ($tcBatchDis[$key][$key1] as $key2 => $value2) {
         $spreadsheet->getActiveSheet()->fromArray([["Batch Details"]],NULL,'A'.$flag++ )->getStyle('A'.($flag-1))->applyFromArray($styleArray);
-        $spreadsheet->getActiveSheet()->fromArray( [ ["Batch Name","Batch SIP ID","Sector Name","Sub Sector Name","Job Name","Trainer Name","Date","Time","Student Enrolled","Female","Male","General","O.B.C","S.T","S.C","Status","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.(($flag-1)).':P'.(($flag-1)))->applyFromArray($styleArray);;
+        $spreadsheet->getActiveSheet()->fromArray( [ ["Batch Name","Batch SIP ID","Sector Name","Sub Sector Name","Job Name","Trainer Name","Date","Time","Student Enrolled","Female","Male","General","O.B.C","S.T","S.C","Status","Student Passed","Student Failed / Not Appeared","Student Placed","First Trans Amount","Second Trans Amount","Third Trans Amount"]],NULL,'B'.$flag++ )->getStyle('B'.(($flag-1)).':P'.(($flag-1)))->applyFromArray($styleArray);;
 
        $spreadsheet->getActiveSheet()->fromArray($value2,NULL,'B'.$flag++ );
        $spreadsheet->getActiveSheet()->fromArray([["Student Details"]],NULL,'A'.$flag++ )->getStyle('A'.($flag-1))->applyFromArray($styleArray);  
