@@ -60,7 +60,8 @@ $this->params['breadcrumbs'][] = $this->title;
               'format'=>'raw',
               'value'=>function($model){
                 if($model->adhar_file_name)
-                return Html::a('View',$model->adhar_file_name, ['target'=>'_blank', 'data-pjax'=>"0",'class'=>'btn btn-sm btn-success']);
+                return  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->adhar_file_name, ['class' => 'btn btn-primary']);
+
                 return "No File Uploaded";
               }
             ],

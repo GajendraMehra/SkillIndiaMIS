@@ -70,10 +70,12 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-4 text-center">
                     <div class="mt-5">
 
-                    <a class="btn btn-primary mt-5 mb-5" href="<?php echo Yii::getAlias('@web/').$model->file_name ?>" target="_blank" > View </a>
-                    <h5>Or</h5>
                     <br>
-            <a class="btn btn-secondary mt-2" href="<?php echo Yii::getAlias('@web/').$model->file_name ?>" target="_blank" download> Download Here</a>
+                    <h5 class="mt-2 mb-2">  
+                     <?=  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->file_name, ['class' => 'btn btn-primary']); ?>
+                    
+                    </h5>
+
                     </div>
                
             </div>

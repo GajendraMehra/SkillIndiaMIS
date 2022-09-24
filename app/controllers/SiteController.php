@@ -51,7 +51,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index','error'],
+                        'actions' => ['logout','getfile', 'index','error'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -87,7 +87,20 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-
+    public function actionGetfile($name="") 
+    { 
+        // $download = PstkIdentifikasi::findOne($id); 
+        $rootPath = Yii::getAlias('@webroot/').$name;
+        $temp=explode("/",$name);
+        $fileName=end($temp);
+      
+        if(!$fileName)
+        throw new \yii\web\HttpException(403,
+            'No such file found');
+        // if (file_exists($path)) {
+            return Yii::$app->response->sendFile($rootPath, $fileName);
+        // }
+    }
 
     public function actionPopulateSectorJobs($id)
     {

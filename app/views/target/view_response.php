@@ -67,14 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'html',
                 // 'value'=>TpartnerDetail::findOne($model->tp_id)['tp_name']
             ],
-            [
-                'attribute'=>  'work_order_file',
-                'label'=>"Work Order ",
-                'format'=>'html',
-                'value'=>function($model){
-                    return '<a class="btn btn-sm btn-warning" href="'.Yii::getAlias('@web/').$model->work_order_file.'" target="_blank" download>View WorkOrder</a>';
-                }
-            ],
+       
              [
                 'attribute'=>'number',
                 'label'=>"Total Targets ",
@@ -103,7 +96,9 @@ $this->params['breadcrumbs'][] = $this->title;
     <h3 class="text-primary mb-2">Workorder</h3>
 
    
-    <h5 class="mt-2 mb-2">  <a class="text-primary" href="<?php echo Yii::getAlias('@web/').$model1->work_order_file ?>" target="_blank" download> Download Here</a></h5>
+    <h5 class="mt-2 mb-2">
+
+    <?=  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model1->work_order_file, ['class' => 'btn btn-primary']);  ?>
     
     </div>
     </div>
@@ -289,6 +284,8 @@ $this->params['breadcrumbs'][] = $this->title;
 var id ;
 var ids;
 $('.spinner-border').hide()
+
+
 
 $('.upload-file').click(function(e){
   $('.spinner-border').show()

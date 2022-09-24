@@ -96,10 +96,12 @@ use app\models\TpartnerDetail;
         [
 
           'label'=>"LOR/Remark",
-          "format"=>"html",
+          "format"=>"raw",
           'value'=> function ($model, $key, $index, $grid){
             if ($model->status==1) {
-              return Html::a('View LOR', Url::base('http').'/'.$model->action_id, ['class'=>'btn btn-primary btn-sm','target'=>'_blank']);
+              return  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->action_id, ['class' => 'btn btn-primary']); 
+
+              // return Html::a('View LOR', Url::base('http').'/'.$model->, ['class'=>'btn btn-primary btn-sm','target'=>'_blank']);
 
             }elseif ($model->status==2) {
               $message=explode('|',$model->action_id);

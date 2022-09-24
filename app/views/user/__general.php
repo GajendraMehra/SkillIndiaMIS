@@ -18,8 +18,19 @@
 
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <label for="misname" class="control-label col-sm-4">Mail Footer</label>
+                    <label for="panel-theme" class="control-label col-sm-4">Can Register new Student ?</label>
+                    <div class="col-sm-8">
+                    <select class="custom-select " name="general[student-reg]" id="paneltheme">
+                    <option value="1">Yes</option>
+                    <option value="0">No</option>
+                    </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="panel-theme" class="control-label col-sm-4">Mail Footer Text</label>
 
                     <div class="col-sm-8">
                         <textarea class="form-control" name="general[mail-footer]" class="text-uppercase"
@@ -88,3 +99,11 @@
     </div>
 
 </div>
+
+
+<script>
+$('select[name="general[student-reg]"]')
+    .val('<?= Yii::$app->config->get('student-reg','1'); ?>')
+    .trigger('change');
+
+</script>

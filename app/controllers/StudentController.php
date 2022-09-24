@@ -169,6 +169,10 @@ class StudentController extends Controller
      */
     public function actionCreate()
     {
+        
+        if(Yii::$app->config->get('student-reg','1')==="1"){
+             throw new \yii\web\HttpException(403, 'This page is under construction. We are implememting the OTP feature for student registration process.');
+        }
         $tcdetails=CommonModel::getTcdetailbyuserid();
         $model = new Student();
         $model->selected_tc=$tcdetails['id'];

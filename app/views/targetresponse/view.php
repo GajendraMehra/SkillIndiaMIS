@@ -58,14 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'html',
                 // 'value'=>TpartnerDetail::findOne($model->tp_id)['tp_name']
             ],
-            [
-                'attribute'=>  'work_order_file',
-                'label'=>"Work Order ",
-                'format'=>'html',
-                'value'=>function($model){
-                    return '<a class="btn btn-sm btn-warning" href="'.Yii::getAlias('@web/').$model->work_order_file.'" target="_blank" download>View WorkOrder</a>';
-                }
-            ],
+        
              [
                 'attribute'=>'number',
                 'label'=>"Total Targets ",
@@ -82,10 +75,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </div>
     <div class="col-md-4 text-center">
     <h3 class="text-primary mb-2">Workorder</h3>
- 
-
-    <h5 class="mt-2 mb-2"> <a class="text-primary" href="<?php echo Yii::getAlias('@web/').$model->work_order_file ?>" target="_blank" download> Download Here</a></h5>
-
+    <?=  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->work_order_file, ['class' => 'btn btn-primary']);  ?>
     </div>
     </div>
 
@@ -130,10 +120,11 @@ $this->params['breadcrumbs'][] = $this->title;
               [
                   'attribute'=>'action_id',
                   'label'=>  "LOR / Reason",
-                    'format'=>'html',
+                    'format'=>'raw',
                   'value'=>function($model){
                     if ($model->status==1) {
-                        return '<a class="btn btn-sm btn-success" href="'.Yii::getAlias('@web/').$model->action_id.'" target="_blank" download>View LOR</a>';
+                        return  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->action_id, ['class' => 'btn btn-primary']);
+                 
                     }else{
                       $text=explode('|',$model->action_id);
                       return @$text[1];

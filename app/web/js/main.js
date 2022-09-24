@@ -2,6 +2,7 @@
 
 $(document).ready(function($) {
 
+
 	"use strict";
 
 	[].slice.call( document.querySelectorAll( 'select.cs-select' ) ).forEach( function(el) {
@@ -83,3 +84,15 @@ $("#delete-all").click(function(){
 	});
 	
 });
+
+function downloadFile(url) {
+	fetch(url)
+	  .then(response => response.blob())
+	  .then(blob => {
+		const link = document.createElement("a");
+		link.href = URL.createObjectURL(blob);
+		link.download = url.split("/").reverse()[0];
+		link.click();
+	})
+	.catch(console.error);
+  }

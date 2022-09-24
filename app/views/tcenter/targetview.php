@@ -119,8 +119,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="col-md-4 text-center">
     <h3 class="text-primary mb-2">LOR</h3>
     <?php
-       
-        echo '<a class="btn btn-sm btn-warning" href="'.Yii::getAlias('@web/').$model->action_id.'" target="_blank" download>Download</a>';
+     echo  Html::a(Yii::t('app', 'Download'), 'index.php?r=site/getfile&name='.$model->action_id, ['class' => 'btn btn-primary']);
+
     // ?>
 
 
