@@ -192,7 +192,7 @@ class StudentController extends Controller
         }
 
         }elseif(Yii::$app->request->post()){
-            Yii::$app->session->addFlash('errormessage', "Plese upload aadhar file. ");
+            Yii::$app->session->addFlash('errormessage', "Please upload aadhar file. ");
 
         }
 

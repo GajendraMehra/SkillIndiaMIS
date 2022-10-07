@@ -35,7 +35,12 @@ use kartik\date\DatePicker;
 
   <h3 class="bg-warning text-dark p-1 text-uppercase border border-primary border-3 rounded">Basic Info</h3>
 
-  <?php $form = ActiveForm::begin(); ?>
+  <?php $form = ActiveForm::begin([
+    'id'=>'student-reg-form',
+    // 'enableAjaxValidation'=>true,
+    // 'enableClientValidation'=>true,
+    // 'focus'=>array($model,'student_name'),
+  ]); ?>
   <div class="row">
      <div class="col-md-6">
         <?= $form->field($model, 'student_name')->textInput(['maxlength' => true]) ?>
@@ -327,8 +332,7 @@ echo $form->field($model, 'adhar_file')->widget(FileInput::classname(), [
 </div>
 <div class="form-group text-center">
 <?= ($model->isNewRecord) ? $form->field($model, "i_agree")->checkbox(['value' => "1",])->label("I agree the terms and conditions"):"" ?>
-
-<?= ($model->isNewRecord) ? Html::submitButton('Add Student ', ['class' => 'btn btn-success']) : Html::submitButton('Update Student ', ['class' => 'btn btn-success']) ?>
+<?= ($model->isNewRecord) ? Html::button('Add Student ', ['onclick'=>'triggerSmsMain()','class' => 'btn btn-success']) : Html::submitButton('Update Student ', ['class' => 'btn btn-success']) ?>
 </div>
 
 <?php ActiveForm::end(); ?>
@@ -336,12 +340,145 @@ echo $form->field($model, 'adhar_file')->widget(FileInput::classname(), [
 </div>
 
 
+<!-- modal -->
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-white bg-<?= Yii::$app->config->get('panel-theme','primary')?>">
+        <h5 class="modal-title" id="exampleModalLabel">Verify Mobile No.</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      <p>Please fill 6 digit OTP received on your no. <span id="phoneNoText"></span> </p>
+   
+   <?php $form = ActiveForm::begin([
+       'id'=>'changepassword-form',
+       'options'=>['class'=>'form-vertical'],
+       
+   ]); ?>
+     <div class="form-group highlight-addon field-student-phone_no required">
+<label class="has-star" for="student-phone_no">OTP </label>
+
+<input type="text" id="student-otp" placeholder="Enter 6 digit OTP"  class="numberOnly form-control" name="Student[otp]" value="" onkeypress="return onlyNumberKey(event)" aria-required="true">
+
+<p class="text-center">If not received <a onClick="triggerSms()" class="text-primary" href="#">Click Here </a></p>
+
+</div>
+      <div class="text-center">
+        <button onClick="verifyOTP()" type="button" class="btn btn-success" data-dismiss="">Verify</button>
+      
+   <?php ActiveForm::end(); ?>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
 
 
+var magicNo=Math.floor(100000 + Math.random() * 900000).toString();
+var url=''
+var timestamp='';
+function getTimestampInSeconds () {
+  return Math.floor(Date.now() / 1000)
+}
+function triggerSmsMain(){
+  $('#student-reg-form :input').blur()
+  setTimeout(() => {
+    triggerSms()
+}, 1000);
+}
+function verifyOTP(){
+  const inputOPT=$("#student-otp").val()
+  const currentTimeStamp=getTimestampInSeconds()
+  if(currentTimeStamp-timestamp>60*60*10&&inputOPT.length===6){
+    toastr.error("Time out. Please try with new OTP.")
+    return false
+  }
+  if(inputOPT.length!==6){
+    toastr.error("Invalid OTP. Please enter 6 digit OTP.")
+    return false
+  }
 
+  // if(timesta)
+  if(inputOPT===magicNo){
+    toastr.success("Mobile No Verified.")
+    setTimeout(() => {
+      $('#student-reg-form').submit()
+    }, 1000);
+  }
+  else{
+    toastr.error("Invalid OTP.")
+
+  }
+  return false
+}
+
+function sendSMS(){
+  timestamp=getTimestampInSeconds()
+  $.ajax({
+    url: url,
+    success: function (data) {
+     console.log(data)
+     $('#exampleModal').modal('show')
+      toastr.success("OTP sent .")
+
+    },
+    error:function(){
+      $('#exampleModal').modal('show')
+      toastr.success("OTP sent .")
+
+    }
+
+});
+}
+ function  triggerSms(){
+  const stuForm=$('#student-reg-form');
+
+  stuForm.click()
+  const file =$('#student-adhar_file').val()
+console.log(file)
+
+  if(stuForm.find('.has-error').length){
+    toastr.error('Please fill all the fields correctly')
+    return false
+  }
+  if(file.length===0){
+    toastr.error('Please upload file upto 300kb')
+    return false
+  }
+  $('#phoneNoText').text($('#student-phone_no').val())
+const hostName="http://164.52.195.161/API/SendMsg.aspx?send=UKSDMS&priority=1";
+const uname="&uname="+20220402;
+const pass="&pass="+"D9prm9H2";
+const dest="&dest="+$('#student-phone_no').val();
+const currentTimeStamp=getTimestampInSeconds()
+ magicNo=Math.floor(100000 + Math.random() * 900000).toString();
+
+// if(currentTimeStamp-timestamp>60*60*10){
+//  magicNo=Math.floor(100000 + Math.random() * 900000).toString();
+// }
+
+  // const url="http://164.52.195.161/API/SendMsg.aspx?uname=20220402&pass=D9prm9H2&send=UKSDMS&dest=8755515001&"
+const text=`Dear User,
+
+OTP for Login Verification on UKSDM Portal is ${magicNo}.
+
+Only valid till 10 minutes.`;
+ const msg="&msg="+encodeURIComponent(text);
+
+  url=hostName+uname+pass+dest+msg;
+  $('#exampleModal').modal('show')
+  sendSMS()
+//  alert(url)
+
+  //$('#student-reg-form').submit()
+}
 function populateSectorJobs(district_id) {
 
 var url = '<?= Url::to(['site/populate-sector-jobs', 'id' => '-id-']) ?>';
@@ -420,5 +557,7 @@ $.ajax({
 });
 }
 
+
+ 
 
 </script>
